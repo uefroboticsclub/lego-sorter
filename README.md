@@ -1,12 +1,35 @@
-# lego-sorter
+## Overview
+This project is a LEGO sorting system using a Jetson Nano, a single top-down camera, and a conveyor belt. The system:
+1. Captures an image of a LEGO piece.
+2. Sends it to the [Brickognize API](https://api.brickognize.com/) for identification.
+3. Determines which bin the piece belongs to (4 predefined categories or an "unidentified" bin).
+4. Uses a servo-controlled paddle to sort the piece into the correct bin.
 
-TO PREDICT! DO THIS!!!! IN THE TERMINAL!!!!
+---
 
-curl -X 'POST'   'https://api.brickognize.com/predict/'   -H 'accept: application/json'   -H 'Content-Type: multipart/form-data'   -F 'query_image=@2025-03-04-171805.jpg;type=image/jpeg' | python -m json.tool
+## Using the Brickognize API
+To predict a LEGO piece using the API, run this command in the terminal:
 
-the "| python -m json.tool" formats the output so you can read it!!!
+```bash
+curl -X 'POST' 'https://api.brickognize.com/predict/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'query_image=@your-image-file.jpg;type=image/jpeg' | python -m json.tool
+```
 
-"query_image=@2025-03-04-171805.jpg" sets what image to send over the api!!!!
-Change the name of the file to get it to work with whatever file you want!!
-
-The file is relative to the current directory, so if you want to use a file in the Pictures/Webcam/ folder, you have to mention the directory or cd there!!!!
+### Explanation:
+- `query_image=@your-image-file.jpg` → Specifies the **image file** to send.
+- `| python -m json.tool` → Formats the API response for readability.
+- **Ensure the image file exists** in the correct directory!
+  - If it's in `Pictures/Webcam/`, specify:
+    ```bash
+    -F 'query_image=@Pictures/Webcam/my-image.jpg;type=image/jpeg'
+    ```
+  - Or navigate to that folder first:
+    ```bash
+    cd ~/Pictures/Webcam
+    curl -X 'POST' 'https://api.brickognize.com/predict/' \
+      -H 'accept: application/json' \
+      -H 'Content-Type: multipart/form-data' \
+      -F 'query_image=@my-image.jpg;type=image/jpeg' | python -m json.tool
+    ```
