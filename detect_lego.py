@@ -41,12 +41,14 @@ try:
         data = send_to_api(image_path)
 
         if data and "items" in data and len(data["items"]) > 0:
-            first_part_id = data["items"][0]["id"]
-            print(f"Detected LEGO Part ID: {first_part_id}")
+            first_part = data["items"][0]
+            part_id = first_part["id"]
+            part_name = first_part["name"]
+            print(f"Detected LEGO Part: {part_name} (ID: {part_id})")
         else:
             print("No valid LEGO part detected.")
 
-        time.sleep(3)  # Wait 3 seconds before capturing the next image
+        time.sleep(2)  # Wait 3 seconds before capturing the next image
 
 except KeyboardInterrupt:
     print("\nStopping detection process.")
