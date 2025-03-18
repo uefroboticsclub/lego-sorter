@@ -1,3 +1,9 @@
+sudo apt update && sudo apt install python3-pip python3-opencv curl -y
+pip3 install requests
+
+
+
+
 import cv2
 import requests
 
